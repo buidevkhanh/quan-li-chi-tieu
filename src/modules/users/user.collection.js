@@ -2,10 +2,8 @@ const {mongoose} = require('../../configs/database.cf');
 const { AppObject } = require("../../commons/app.object");
 
 const UserSchemal = mongoose.Schema({
-    username: { type: String, require: true},
-    password: { type: String, require: true},
     email: { type: String, require: true},
-    public_token: { type: String, require: false},
+    password: { type: String, require: true},
     fullname: { type: String, require: true}
 }, { timestamps: true})
 

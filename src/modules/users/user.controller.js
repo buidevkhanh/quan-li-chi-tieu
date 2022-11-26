@@ -1,15 +1,24 @@
-const { getAllUser } = require("./user.service");
+const userService = require("./user.service");
 
-async function getAll(req, res, next) {
+async function userRegister(req, res, next) {
     try {
-        const result = await getAllUser();
-        res.status(200).json(result);
+        await userService.userRegister(req.body);
+        res.status(200).json({success: true});
     } catch (error) {
-        console.log(error);
+        next(error);
+    }
+}
+
+async function userLogin(req, res, next) {
+    try {
+        const token = await userService.userLogin(req.body);
+        res.status(200).json({public_token: token, type: 'Bearer'});
+    } catch (error) {
         next(error);
     }
 }
 
 module.exports = {
-    getAll
+    userRegister,
+    userLogin
 }

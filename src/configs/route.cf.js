@@ -1,6 +1,7 @@
 const path = require('path');
 const glob = require('glob');
 const signale = require('signale');
+const bodyParser = require('body-parser');
 
 async function configRoute(app) {
   const routePaths = glob.sync(
@@ -17,6 +18,8 @@ async function configRoute(app) {
     return childRoute;
   });
 
+  app.use(bodyParser.json());
+  app.use(bodyParser.urlencoded({extended: true}));
   app.use('/api/v1', routes)
 }
 
