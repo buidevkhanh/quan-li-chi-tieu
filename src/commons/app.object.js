@@ -1,7 +1,8 @@
 exports.AppObject = {
     COLLECTION: {
         USERS: 'user',
-        WALLETS: 'wallet'
+        WALLETS: 'wallet',
+        CATEGORIES: 'category'
     },
     ALGORITHM: 'SHA256',
     ENUM: {
