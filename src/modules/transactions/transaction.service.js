@@ -39,6 +39,9 @@ async function getTransaction(email, params) {
         throw new BadError('user not found');
     }
     const conditions = {};
+    if(params.category) {
+        Object.assign(conditions, {category: mongoose.Types.ObjectId(params.category)});
+    }
     if(wallet) {
         const walletFound = await walletRepository.findOne({user: userFound._id, _id: mongoose.Types.ObjectId(wallet), status: AppObject.ENUM.STATUS.ACTIVE});
         if(!walletFound) {
@@ -46,12 +49,11 @@ async function getTransaction(email, params) {
         }
         conditions.wallet = wallet;
     }
-    return transactionRepository.find({user: userFound._id, conditions}).lean();
+    return transactionRepository.find({user: userFound._id, ...conditions}).lean();
 }
 
-async function statistic(email, params) {
+async function statistic(email) {
     const userFound = await userRepository.findOne({email});
-    const type = params.type || 'USD';
     if(!userFound) {
         throw new BadError('user not found');
     }

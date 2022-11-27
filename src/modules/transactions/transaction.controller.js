@@ -18,7 +18,17 @@ async function statistic(req, res, next) {
     }
 }
 
+async function getTransaction(req, res, next) {
+    try {
+        const result = await transactionService.getTransaction(req.user, req.query);
+        res.status(200).json(result);
+    } catch (error) {
+        next(error);
+    }
+}
+
 module.exports = {
     createTransaction,
-    statistic
+    statistic,
+    getTransaction
 }

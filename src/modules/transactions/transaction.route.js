@@ -10,6 +10,8 @@ _router.post('/transaction', [isLogin, validate(createTransaction), transactionC
 
 _router.get('/transaction/statistic', [isLogin, transactionController.statistic]);
 
+_router.get('/transaction', [isLogin, transactionController.getTransaction]);
+
 module.exports = {
     router: _router,
     name: 'transactions'
