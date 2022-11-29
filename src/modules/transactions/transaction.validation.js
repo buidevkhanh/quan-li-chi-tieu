@@ -11,9 +11,7 @@ const createTransaction = Joi.object({
     wallet: Joi.string().required().pattern(new RegExp('^[a-f0-9]{24,24}')).messages({
         "string.pattern.base": "wallet required valid uuid"
     }),
-    photos: Joi.array().allow(null).items(Joi.string().required().pattern(new RegExp('^[a-f0-9]{24,24}')).messages({
-        "string.pattern.base": "photo required valid uuid"
-    }))
+    avatar: Joi.string().optional().allow(null)
 })
 
 module.exports = {

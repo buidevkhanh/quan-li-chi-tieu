@@ -49,7 +49,7 @@ async function getTransaction(email, params) {
         }
         conditions.wallet = wallet;
     }
-    return transactionRepository.find({user: userFound._id, ...conditions}).lean();
+    return transactionRepository.find({user: userFound._id, ...conditions}).sort({'createdAt': -1}).populate({path: 'category', select: 'name'});
 }
 
 async function statistic(email) {
@@ -66,10 +66,10 @@ async function statistic(email) {
     const begin_week = new Date(today.setDate(today.getDate() - (thisDay - 1)));
 
     const all_transfer = transfer.reduce((total, item) => {
-        total.all_transfer += item.ammout;
+        total.all_transfer += item.ammout;  
         if(item.year === new Date().getFullYear())
             total.month_of_year_transfer[item.month - 1] += item.ammout;
-        const delta = Number(new Date(`${item.year}-${item.month}-${item.day}`)) - Number(begin_week);
+        const delta = Number(new Date(`${item.year}-${item.month}-${item.day}`)) - Number(new Date(`${begin_week.getFullYear()}-${begin_week.getMonth()+1}-${begin_week.getDate()}`));
         if(delta >= 0 && delta < 604800000) {
             total.day_of_week_transfer[new Date(`${item.year}-${item.month}-${item.day}`).getDay()] += item.ammout;
         }
@@ -82,7 +82,7 @@ async function statistic(email) {
         total.all_receive  += item.ammout;
         if(item.year === new Date().getFullYear())
             total.month_of_year_receive[item.month-1] += item.ammout;
-        const delta = Number(new Date(`${item.year}-${item.month}-${item.day}`)) - Number(begin_week);
+            const delta = Number(new Date(`${item.year}-${item.month}-${item.day}`)) - Number(new Date(`${begin_week.getFullYear()}-${begin_week.getMonth()+1}-${begin_week.getDate()}`));
         if(delta >= 0 && delta < 604800000) {
             total.day_of_week_receive[new Date(`${item.year}-${item.month}-${item.day}`).getDay()] += item.ammout;
         }

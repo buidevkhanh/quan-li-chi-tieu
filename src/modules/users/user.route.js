@@ -14,6 +14,8 @@ _router.get('/user', [isLogin, userGetInfo]);
 
 _router.patch('/user', [isLogin, validate(userValidSchema.userUpdateInfo), userUpdateInfo]);
 
+_router.post('/user/valid', [isLogin, function(req, res){res.status(200).json({success: true})}]);
+
 module.exports = {
     router: _router,
     name: 'users'

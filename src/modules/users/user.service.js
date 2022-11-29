@@ -37,10 +37,10 @@ async function userGetInfo(email) {
 }
 
 async function userUpdateInfo(user, userInfo) {
-    const userFound = await userRepository.findOne({user});
+    const userFound = await userRepository.findOne({email: user});
     if(!userFound) {
         throw new BadError('user not found');
-    };
+    };  
     for(const key of Object.keys(userInfo)) {
         if(key === 'password') {
             const newpass = require('crypto').createHash(AppObject.ALGORITHM).update(userInfo[key]).digest('hex');
@@ -49,7 +49,7 @@ async function userUpdateInfo(user, userInfo) {
                 set(`user:${userFound.email}`, Number(new Date()).toString());
             }
         } else if (key == "fullname") {
-            userFound[fullname] = validFullname(userInfo.fullname);
+            userFound["fullname"] = validFullname(userInfo.fullname);
         } else if (key == 'email') {
             set(`user:${userFound.email}`, Number(new Date()).toString());
             userFound[key] = userInfo[key];

@@ -11,7 +11,7 @@ const TransactionSchema = mongoose.Schema({
     month: { type: Number, required: true},
     year: { type: Number, required: true},
     wallet: { type: mongoose.Types.ObjectId, ref: AppObject.COLLECTION.WALLETS},
-    photos: [{ type: String }]
+    avatar: { type: String, require: false}
 }, { timestamps: true})
 
 const transactionModel = mongoose.model(AppObject.COLLECTION.TRANSACTIONS, TransactionSchema);
